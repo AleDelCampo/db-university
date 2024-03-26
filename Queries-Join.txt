@@ -36,7 +36,12 @@ ORDER BY `surname`, `name`
 
 5. Selezionare tutti i corsi di laurea con i relativi corsi e insegnanti
 
-
+SELECT degrees.name AS degree_name, courses.name AS course_name, course_teacher.teacher_id
+FROM `degrees`
+JOIN `courses`
+ON degrees.id = courses.degree_id
+LEFT JOIN course_teacher
+ON courses.id = course_teacher.course_id;
 
 6. Selezionare tutti i docenti che insegnano nel Dipartimento di
 Matematica (54)
