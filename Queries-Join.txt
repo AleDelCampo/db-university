@@ -26,7 +26,7 @@ WHERE course_teacher.teacher_id = 44;
 sono iscritti e il relativo dipartimento, in ordine alfabetico per cognome e
 nome
 
-SELECT students.*, degrees.name AS degree_name, departments.name AS department_name
+SELECT students.*, degrees.name AS Nome_Corso, departments.name AS Nome_Dipartimento
 FROM `students`
 JOIN `degrees`
 ON students.degree_id = degrees.id
@@ -36,7 +36,7 @@ ORDER BY `surname`, `name`
 
 5. Selezionare tutti i corsi di laurea con i relativi corsi e insegnanti
 
-SELECT degrees.name AS degree_name, courses.name AS course_name, course_teacher.teacher_id
+SELECT degrees.name AS Nome_Corso, courses.name AS Nome_Materia, course_teacher.teacher_id
 FROM `degrees`
 JOIN `courses`
 ON degrees.id = courses.degree_id
@@ -62,7 +62,17 @@ WHERE departments.id = '5'
 per ogni esame, stampando anche il voto massimo. Successivamente,
 filtrare i tentativi con voto minimo 18
 
-SELECT exam_student.student_id, exam_student.exam_id, COUNT(exam_student.vote) AS tentativi_sostenuti, MAX(exam_student.vote) AS voto_massimo
-FROM exam_student
-GROUP BY exam_student.student_id, exam_student.exam_id
-HAVING MAX(exam_student.vote) >= 18;
+SELECT students.name, students.surname, COUNT(courses.id) AS 'Numero_Tentativi', courses.name
+FROM `students`
+JOIN exam_student
+ON students.id = exam_student.student_id
+JOIN `exams`
+ON exam_student.exam_id = exams.id
+JOIN `courses`
+ON exams.course_id = courses.id
+
+(Filtrare tramite il WHERE.)
+WHERE exam_student.vote >= 18
+
+
+GROUP BY students.id, exams.course_id
